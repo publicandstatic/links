@@ -1,30 +1,42 @@
 body {
-    background-color: #f8f9fa;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #22A8CB;
+    font-family: 'Play';
+    color: #1f222c;
 }
 
 h1 {
-    color: #333;
+    font-weight: 700;
 }
+/*3e475f	1f222c*/
 
-.social-link {
-    display: block;
-    padding: 20px;
+.custom-btn {
+    box-sizing: border-box;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: transparent;
+    border: 2px solid #F7F619;
+    border-radius: 0.6em;
+    color: #F7F619;
+    cursor: pointer;
+    display: flex;
+    align-self: center;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1;
+    margin: 20px;
+    padding: 1.2em 2.8em;
     text-decoration: none;
-    color: #fff;
-    font-size: 1.5rem;
-    background-color: #007bff;
-    border-radius: 10px;
-    transition: transform 0.3s ease, background-color 0.3s ease;
+    text-align: center;
+    text-transform: uppercase;
+    background-image: linear-gradient(45deg, #F7F619 50%, transparent 50%);
+    background-position: 100%;
+    background-size: 400%;
+    transition: background 300ms ease-in-out;
 }
 
-.social-link:hover {
-    background-color: #0056b3;
-    transform: scale(1.1);
-}
-
-.social-link i {
-    font-size: 2rem;
-    margin-bottom: 10px;
-    display: block;
+.custom-btn:hover, .custom-btn:focus {
+    color: #1f222c;
+    outline: 0;
+    background-position: 0;
 }
