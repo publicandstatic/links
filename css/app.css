@@ -36,23 +36,8 @@ body {
     filter: drop-shadow(0px 0px 4px #1f222c);
 }
 
-.logo-back {
-    width: 56px;
-    height: 56px;
-    position: absolute;
-    background-image: url('/links/images/logos/logo_main.png');
-    background-size: cover;
-    background-position: center;
-    z-index: -1;
-}
-
 @media (min-width: 768px) {
     .logo {
-        width: 112px;
-        height: 112px;
-    }
-
-    .logo-back {
         width: 112px;
         height: 112px;
     }

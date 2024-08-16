@@ -45,17 +45,48 @@ document.addEventListener('DOMContentLoaded', function() {
         '/links/images/logos/logo_yyy.png',
     ];
 
+    // Попереднє завантаження всіх зображень
+    images.forEach(image => {
+        const img = new Image();
+        img.src = image;
+    });
+
+    let isAnimating = false;
+    let nextImage = null;
+
     function getRandomImage() {
         return images[Math.floor(Math.random() * images.length)];
     }
 
+    function playAnimation(image) {
+        isAnimating = true;
+        logoElement.style.backgroundImage = `url('${image}')`;
+        setTimeout(() => {
+            isAnimating = false;
+            if (nextImage) {
+                const imageToAnimate = nextImage;
+                nextImage = null;
+                playAnimation(imageToAnimate);
+            }
+        }, 200); // Тривалість анімації
+    }
+
     logoChangeElements.forEach(element => {
         element.addEventListener('mouseenter', () => {
-            logoElement.style.backgroundImage = `url('${getRandomImage()}')`;
+            const newImage = getRandomImage();
+            if (!isAnimating) {
+                playAnimation(newImage);
+            } else {
+                nextImage = newImage;
+            }
         });
 
         element.addEventListener('mouseleave', () => {
-            logoElement.style.backgroundImage = `url('/links/images/logos/logo_main.png')`;
+            if (!isAnimating) {
+                playAnimation('/links/images/logos/logo_main.png');
+            } else {
+                nextImage = '/links/images/logos/logo_main.png';
+            }
         });
     });
 });
