@@ -12,15 +12,15 @@ body {
 .logo {
     width: 100px;
     height: 100px;
-    background-image: url('../images/logos/logo_main.png');
+    background-image: url('/links/images/logos/logo_main.png');
     background-size: cover;
     background-position: center;
     transition: background-image 0.2s ease-in-out;
 }
 
-.logo:hover {
-    background-image: url('../images/logos/logo_yea.png');
-}
+/*.logo:hover {*/
+/*    background-image: url('../images/logos/logo_yea.png');*/
+/*}*/
 @media (min-width: 768px) {
     .logo {
         width: 150px;

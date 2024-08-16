@@ -31,18 +31,18 @@ document.addEventListener('DOMContentLoaded', function() {
     const logoElement = document.querySelector('.logo');
     const logoChangeElements = document.querySelectorAll('.logo-change');
     const images = [
-        '../images/logos/logo_crazy.png',
-        '../images/logos/logo_good.png',
-        '../images/logos/logo_hm.png',
-        '../images/logos/logo_nice.png',
-        '../images/logos/logo_ohmy.png',
-        '../images/logos/logo_ok.png',
-        '../images/logos/logo_oyy.png',
-        '../images/logos/logo_sad.png',
-        '../images/logos/logo_serios.png',
-        '../images/logos/logo_smile.png',
-        '../images/logos/logo_yea.png',
-        '../images/logos/logo_yyy.png',
+        '/links/images/logos/logo_crazy.png',
+        '/links/images/logos/logo_good.png',
+        '/links/images/logos/logo_hm.png',
+        '/links/images/logos/logo_nice.png',
+        '/links/images/logos/logo_ohmy.png',
+        '/links/images/logos/logo_ok.png',
+        '/links/images/logos/logo_oyy.png',
+        '/links/images/logos/logo_sad.png',
+        '/links/images/logos/logo_serios.png',
+        '/links/images/logos/logo_smile.png',
+        '/links/images/logos/logo_yea.png',
+        '/links/images/logos/logo_yyy.png',
     ];
 
     function getRandomImage() {
@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         element.addEventListener('mouseleave', () => {
-            logoElement.style.backgroundImage = `url('../images/logos/logo_main.png')`;
+            logoElement.style.backgroundImage = `url('/links/images/logos/logo_main.png')`;
         });
     });
 });
