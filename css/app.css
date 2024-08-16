@@ -36,11 +36,23 @@ body {
     filter: drop-shadow(0px 0px 4px #1f222c);
 }
 
-/*.logo:hover {*/
-/*    background-image: url('../images/logos/logo_yea.png');*/
-/*}*/
+.logo-back {
+    width: 56px;
+    height: 56px;
+    position: absolute;
+    background-image: url('/links/images/logos/logo_main.png');
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+}
+
 @media (min-width: 768px) {
     .logo {
+        width: 112px;
+        height: 112px;
+    }
+
+    .logo-back {
         width: 112px;
         height: 112px;
     }
@@ -90,6 +102,28 @@ h5 {
     height: 100%;
     -webkit-filter: drop-shadow(0px 0px 4px #1f222c);
     filter: drop-shadow(0px 0px 4px #1f222c);
+}
+
+.bi {
+    padding-right: 0.2em;
+}
+
+@font-face {
+    font-family: 'icomoon';
+    src: url('/links/fonts/icomoon.woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+}
+
+.bi-mono::before {
+    font-family: 'icomoon' !important;
+    content: "\e901";
+}
+
+.bi-donatello::before {
+    font-family: 'icomoon' !important;
+    content: "\e900";
 }
 
 .gradient45 {
