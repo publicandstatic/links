@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-var canvas = document.getElementById('myCanvas');
+var canvas = document.getElementById('background-сanvas');
 var context = canvas.getContext('2d');
 var colors = ["#00bfcb", "#18d3bc", "#5b82c8", "#3396cf"];
 var fps = 15;
