@@ -67,7 +67,7 @@ h5 {
 }
 
 .custom-btn {
-    background-color: transparent;
+    background-color: rgba(62, 71, 95, 0.5);
     border: 2px solid #F7F619;
     border-radius: 0.6em;
     color: #F7F619;
