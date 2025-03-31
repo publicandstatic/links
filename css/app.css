@@ -103,13 +103,23 @@ i.bi {
 
 .bi-mono::before {
     font-family: 'icomoon' !important;
-    content: "\e901";
+    content: "\e903";
 }
 
 .bi-donatello::before {
     font-family: 'icomoon' !important;
     content: "\e900";
 }
+
+.bi-bluesky::before {
+    font-family: 'icomoon' !important;
+    content: "\e902";
+}
+.bi-itch::before {
+    font-family: 'icomoon' !important;
+    content: "\e901";
+}
+
 
 .gradient45 {
     background-image: linear-gradient(45deg, #F7F619 50%, transparent 50%);
