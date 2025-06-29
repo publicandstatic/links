@@ -27,6 +27,35 @@ document.getElementById('copy-email-btn').addEventListener('click', function(eve
     }, 1000);
 });
 
+document.getElementById('copy-nintendo-btn').addEventListener('click', function(event) {
+    event.preventDefault(); // Зупиняємо відкриття поштового клієнта
+
+    // Текст для копіювання
+    const email = 'PublicUA';
+
+    // Створюємо тимчасовий текстовий елемент для копіювання
+    const tempInput = document.createElement('input');
+    tempInput.value = email;
+    document.body.appendChild(tempInput);
+
+    // Виділяємо та копіюємо текст
+    tempInput.select();
+    document.execCommand('copy');
+
+    // Видаляємо тимчасовий текстовий елемент
+    document.body.removeChild(tempInput);
+
+    // Змінюємо текст посилання
+    const link = document.getElementById('copy-nintendo-btn');
+    const originalText = link.innerHTML;
+    link.innerHTML = 'NS нікнейм скопійовано!';
+
+    // Повертаємо оригінальний текст через 2 секунди
+    setTimeout(function() {
+        link.innerHTML = originalText;
+    }, 1000);
+});
+
 document.addEventListener('DOMContentLoaded', function() {
     const logoElement = document.querySelector('.logo');
     const logoChangeElements = document.querySelectorAll('.logo-change');
