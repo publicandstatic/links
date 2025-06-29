@@ -48,7 +48,7 @@ document.getElementById('copy-nintendo-btn').addEventListener('click', function(
     // Змінюємо текст посилання
     const link = document.getElementById('copy-nintendo-btn');
     const originalText = link.innerHTML;
-    link.innerHTML = 'NS нікнейм скопійовано!';
+    link.innerHTML = 'Нікнейм скопійовано!';
 
     // Повертаємо оригінальний текст через 2 секунди
     setTimeout(function() {
