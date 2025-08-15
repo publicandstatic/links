@@ -216,3 +216,49 @@ document.addEventListener("DOMContentLoaded", function() {
         animloop()
     };
 });
+
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // Беремо всі заголовки-активатори
+    const names = document.querySelectorAll('.acc-name');
+  
+    names.forEach((nameEl) => {
+      // шукаємо, що контролюємо
+      let bodyId = nameEl.getAttribute('aria-controls');
+      if (!bodyId) {
+        // fallback: пробуємо заміну Name -> Body в id
+        const id = nameEl.id || '';
+        if (id && id.endsWith('Name')) bodyId = id.replace(/Name$/, 'Body');
+        if (bodyId) nameEl.setAttribute('aria-controls', bodyId);
+      }
+      const bodyEl = bodyId ? document.getElementById(bodyId) : null;
+      if (!bodyEl) return;
+  
+      // ARIA та початковий стан
+      nameEl.setAttribute('role', 'button');
+      nameEl.setAttribute('tabindex', '0');
+      syncAria(nameEl);
+  
+      // Перемикач
+      const toggle = () => {
+        nameEl.classList.toggle('hidden-name');
+        nameEl.classList.toggle('open-name');
+  
+        bodyEl.classList.toggle('hidden-body');
+        bodyEl.classList.toggle('open-body');
+  
+        syncAria(nameEl);
+      };
+  
+      // Події
+      nameEl.addEventListener('click', toggle);
+      nameEl.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+      });
+    });
+  
+    function syncAria(nameEl){
+      const expanded = nameEl.classList.contains('open-name');
+      nameEl.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+    }
+  });

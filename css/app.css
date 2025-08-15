@@ -185,3 +185,105 @@ i.bi {
     color: var(--bs-dropdown-link-hover-color) !important;
     background-color: var(--bs-dropdown-link-hover-bg) !important;
 }
+
+/* #mainActivityName{
+    display:inline-flex; align-items:center; gap:.5rem;
+    cursor:pointer; user-select:none;
+  }
+  
+  #mainActivityName::after{
+    content:""; display:inline-block; width:0; height:0;
+    border-left:6px solid transparent; border-right:6px solid transparent;
+  }
+  #mainActivityName.hidden-name::after{ border-top:8px solid currentColor; }
+  #mainActivityName.open-name::after{   border-bottom:8px solid currentColor; }
+  
+  #mainActivityBody{
+    display:grid;
+    grid-template-rows: 0fr;
+  }
+  #mainActivityBody > .body-inner{
+    overflow:hidden;
+  }
+  
+  #mainActivityBody.open-body{
+    grid-template-rows: 1fr;
+    animation: acc-open .3s ease forwards;
+  }
+  
+  #mainActivityBody.hidden-body{
+    grid-template-rows: 0fr;
+    animation: acc-close .3s ease forwards;
+  }
+  
+  @keyframes acc-open{
+    from{ grid-template-rows: 0fr; }
+    to  { grid-template-rows: 1fr; }
+  }
+  @keyframes acc-close{
+    from{ grid-template-rows: 1fr; }
+    to  { grid-template-rows: 0fr; }
+  }
+  
+  @media (prefers-reduced-motion: reduce){
+    #mainActivityBody{ animation:none !important; }
+  }
+  
+  #mainActivityName{ margin-bottom:.75rem; } */
+  
+
+
+  /* ===== Заголовок з трикутником (спільні стилі) ===== */
+.acc-name{
+    display:inline-flex;
+    align-items:center;
+    gap:.5rem;
+    cursor:pointer;
+    user-select:none;
+    margin-bottom:.75rem; /* як у тебе для h5 */
+  }
+  
+  /* трикутник */
+  .acc-name::after{
+    content:"";
+    display:inline-block;
+    width:0; height:0;
+    border-left:6px solid transparent;
+    border-right:6px solid transparent;
+  }
+  .acc-name.hidden-name::after{ border-top:8px solid currentColor; }    /* ▼ */
+  .acc-name.open-name::after{   border-bottom:8px solid currentColor; } /* ▲ */
+  
+  /* ===== Тіло з CSS-анімацією на grid ===== */
+  .acc-body{
+    display:grid;
+    grid-template-rows: 0fr;      /* закрито */
+  }
+  .acc-body > .body-inner{
+    overflow:hidden;              /* ховаємо під час анімації */
+  }
+  
+  /* стани */
+  .acc-body.open-body{
+    grid-template-rows: 1fr;
+    animation: acc-open .3s ease forwards;
+  }
+  .acc-body.hidden-body{
+    grid-template-rows: 0fr;
+    animation: acc-close .3s ease forwards;
+  }
+  
+  /* keyframes */
+  @keyframes acc-open{
+    from{ grid-template-rows: 0fr; }
+    to  { grid-template-rows: 1fr; }
+  }
+  @keyframes acc-close{
+    from{ grid-template-rows: 1fr; }
+    to  { grid-template-rows: 0fr; }
+  }
+  
+  /* повага до налаштувань системи */
+  @media (prefers-reduced-motion: reduce){
+    .acc-body{ animation:none !important; }
+  }
