@@ -31,11 +31,11 @@ document.getElementById('copy-nintendo-btn').addEventListener('click', function(
     event.preventDefault(); // Зупиняємо відкриття поштового клієнта
 
     // Текст для копіювання
-    const email = 'PublicUA';
+    const code = 'SW-4549-5995-6185';
 
     // Створюємо тимчасовий текстовий елемент для копіювання
     const tempInput = document.createElement('input');
-    tempInput.value = email;
+    tempInput.value = code;
     document.body.appendChild(tempInput);
 
     // Виділяємо та копіюємо текст
@@ -48,7 +48,7 @@ document.getElementById('copy-nintendo-btn').addEventListener('click', function(
     // Змінюємо текст посилання
     const link = document.getElementById('copy-nintendo-btn');
     const originalText = link.innerHTML;
-    link.innerHTML = 'Нікнейм скопійовано!';
+    link.innerHTML = 'Код друга скопійовано!';
 
     // Повертаємо оригінальний текст через 2 секунди
     setTimeout(function() {
