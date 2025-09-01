@@ -249,8 +249,8 @@ document.addEventListener('DOMContentLoaded', () => {
         mode: 'group',
         order: 'normal',
 
-        staggerRange: [60, 70],
-        durationRange: [600, 700],
+        staggerRange: [100, 130],
+        durationRange: [1000, 1300],
 
         jitter: 0.25,
     };
