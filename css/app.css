@@ -1,7 +1,7 @@
 body {
     font-family: 'Play';
-    color: #F7F619;
-    background-color: #22A8CB;
+    color: #f7f619;
+    background-color: #22a8cb;
     text-rendering: optimizeLegibility;
 }
 
@@ -18,7 +18,6 @@ body {
     -o-filter: blur(150px);
     -ms-filter: blur(150px);
 }
-
 
 .justify-content-center {
     position: relative;
@@ -68,9 +67,9 @@ h5 {
 
 .custom-btn {
     background-color: rgba(62, 71, 95, 0.5);
-    border: 2px solid #F7F619;
+    border: 2px solid #f7f619;
     border-radius: 0.6em;
-    color: #F7F619;
+    color: #f7f619;
     cursor: pointer;
     display: flex;
     align-self: center;
@@ -103,32 +102,32 @@ i.bi {
 
 .bi-mono::before {
     font-family: 'icomoon' !important;
-    content: "\e903";
+    content: '\e903';
 }
 
 .bi-donatello::before {
     font-family: 'icomoon' !important;
-    content: "\e900";
+    content: '\e900';
 }
 
 .bi-bluesky::before {
     font-family: 'icomoon' !important;
-    content: "\e902";
+    content: '\e902';
 }
 .bi-itch::before {
     font-family: 'icomoon' !important;
-    content: "\e901";
+    content: '\e901';
 }
 
 .dropdown-menu a {
     text-decoration: none;
     position: relative;
-    color: #22A8CB;
+    color: #22a8cb;
     font-size: 1em;
 }
 
 .dropdown-menu a::after {
-    content: "";
+    content: '';
     position: absolute;
     left: 0;
     bottom: -5px;
@@ -143,147 +142,150 @@ i.bi {
 }
 
 .gradient45 {
-    background-image: linear-gradient(45deg, #F7F619 50%, transparent 50%);
+    background-image: linear-gradient(45deg, #f7f619 50%, transparent 50%);
 }
 
-.gradient135  {
-    background-image: linear-gradient(135deg, #F7F619 50%, transparent 50%);
+.gradient135 {
+    background-image: linear-gradient(135deg, #f7f619 50%, transparent 50%);
 }
 
-.custom-btn:hover, .custom-btn:focus {
+.custom-btn:hover,
+.custom-btn:focus {
     color: #1f222c;
     background-position: 0;
 }
-
 
 .dropdown-center {
     z-index: 100;
 }
 #hamburger {
     background-color: #3e475f;
-    color: #FFFFFF;
+    color: #ffffff;
 }
 
-#hamburger:hover, #hamburger:active {
+#hamburger:hover,
+#hamburger:active {
     background-color: #3e475f;
-    color: #FFFFFF;
-    border-color: #FFFFFF;
+    color: #ffffff;
+    border-color: #ffffff;
 }
 
 .dropdown-menu {
     --bs-dropdown-bg: #3e475f;
 }
 .dropdown-item {
-    --bs-dropdown-link-color: #FFFFFF;
+    --bs-dropdown-link-color: #ffffff;
     --bs-dropdown-link-active-bg: rgba(31, 34, 44, 0.5);
-    --bs-dropdown-link-active-color: #FFFFFF;
+    --bs-dropdown-link-active-color: #ffffff;
     --bs-dropdown-link-hover-bg: #1f222c;
-    --bs-dropdown-link-hover-color: #FFFFFF;
+    --bs-dropdown-link-hover-color: #ffffff;
 }
 
-.dropdown-item:focus, .dropdown-item:hover {
+.dropdown-item:focus,
+.dropdown-item:hover {
     color: var(--bs-dropdown-link-hover-color) !important;
     background-color: var(--bs-dropdown-link-hover-bg) !important;
 }
 
-/* #mainActivityName{
-    display:inline-flex; align-items:center; gap:.5rem;
-    cursor:pointer; user-select:none;
-  }
-  
-  #mainActivityName::after{
-    content:""; display:inline-block; width:0; height:0;
-    border-left:6px solid transparent; border-right:6px solid transparent;
-  }
-  #mainActivityName.hidden-name::after{ border-top:8px solid currentColor; }
-  #mainActivityName.open-name::after{   border-bottom:8px solid currentColor; }
-  
-  #mainActivityBody{
-    display:grid;
-    grid-template-rows: 0fr;
-  }
-  #mainActivityBody > .body-inner{
-    overflow:hidden;
-  }
-  
-  #mainActivityBody.open-body{
-    grid-template-rows: 1fr;
-    animation: acc-open .3s ease forwards;
-  }
-  
-  #mainActivityBody.hidden-body{
-    grid-template-rows: 0fr;
-    animation: acc-close .3s ease forwards;
-  }
-  
-  @keyframes acc-open{
-    from{ grid-template-rows: 0fr; }
-    to  { grid-template-rows: 1fr; }
-  }
-  @keyframes acc-close{
-    from{ grid-template-rows: 1fr; }
-    to  { grid-template-rows: 0fr; }
-  }
-  
-  @media (prefers-reduced-motion: reduce){
-    #mainActivityBody{ animation:none !important; }
-  }
-  
-  #mainActivityName{ margin-bottom:.75rem; } */
-  
+.acc-name {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    user-select: none;
+    margin-bottom: 0.75rem;
+}
 
+.acc-name::after {
+    content: '';
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+}
+.acc-name.hidden-name::after {
+    border-top: 8px solid currentColor;
+}
+.acc-name.open-name::after {
+    border-bottom: 8px solid currentColor;
+}
 
-  /* ===== Заголовок з трикутником (спільні стилі) ===== */
-.acc-name{
-    display:inline-flex;
-    align-items:center;
-    gap:.5rem;
-    cursor:pointer;
-    user-select:none;
-    margin-bottom:.75rem; /* як у тебе для h5 */
-  }
-  
-  /* трикутник */
-  .acc-name::after{
-    content:"";
-    display:inline-block;
-    width:0; height:0;
-    border-left:6px solid transparent;
-    border-right:6px solid transparent;
-  }
-  .acc-name.hidden-name::after{ border-top:8px solid currentColor; }    /* ▼ */
-  .acc-name.open-name::after{   border-bottom:8px solid currentColor; } /* ▲ */
-  
-  /* ===== Тіло з CSS-анімацією на grid ===== */
-  .acc-body{
-    display:grid;
-    grid-template-rows: 0fr;      /* закрито */
-  }
-  .acc-body > .body-inner{
-    overflow:hidden;              /* ховаємо під час анімації */
-  }
-  
-  /* стани */
-  .acc-body.open-body{
-    grid-template-rows: 1fr;
-    animation: acc-open .3s ease forwards;
-  }
-  .acc-body.hidden-body{
+.acc-body {
+    display: grid;
     grid-template-rows: 0fr;
-    animation: acc-close .3s ease forwards;
-  }
-  
-  /* keyframes */
-  @keyframes acc-open{
-    from{ grid-template-rows: 0fr; }
-    to  { grid-template-rows: 1fr; }
-  }
-  @keyframes acc-close{
-    from{ grid-template-rows: 1fr; }
-    to  { grid-template-rows: 0fr; }
-  }
-  
-  /* повага до налаштувань системи */
-  @media (prefers-reduced-motion: reduce){
-    .acc-body{ animation:none !important; }
-  }
+}
+.acc-body > .body-inner {
+    overflow: hidden;
+}
+
+.acc-body.open-body {
+    grid-template-rows: 1fr;
+    animation: acc-open 0.3s ease forwards;
+}
+.acc-body.hidden-body {
+    grid-template-rows: 0fr;
+    animation: acc-close 0.3s ease forwards;
+}
+
+@keyframes acc-open {
+    from {
+        grid-template-rows: 0fr;
+    }
+    to {
+        grid-template-rows: 1fr;
+    }
+}
+@keyframes acc-close {
+    from {
+        grid-template-rows: 1fr;
+    }
+    to {
+        grid-template-rows: 0fr;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .acc-body {
+        animation: none !important;
+    }
+}
+
+.jump {
+    --jump-stagger-group: 90ms;
+    --jump-duration-group: 700ms;
+    --jump-from: 110vh;
+}
+
+.jump > * {
+    transform: translate3d(0, var(--jump-from), 0) scale(0.98);
+    opacity: 0;
+    will-change: transform, opacity;
+}
+
+.jump.is-ready > * {
+    animation-name: jump-bounce;
+    animation-duration: var(--jump-duration, var(--jump-duration-group));
+    animation-fill-mode: both;
+    animation-timing-function: cubic-bezier(0.16, 0.9, 0.2, 1);
+    animation-delay: calc(var(--i, 0) * var(--jump-stagger, var(--jump-stagger-group)));
+}
+
+@keyframes jump-bounce {
+    0% {
+        transform: translate3d(0, var(--jump-from), 0) scale(0.98);
+        opacity: 0;
+    }
+    100% {
+        transform: translate3d(0, 0, 0) scale(1);
+        opacity: 1;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .jump > * {
+        transform: none !important;
+        opacity: 1 !important;
+        animation: none !important;
+    }
+}
