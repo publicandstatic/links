@@ -246,60 +246,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
 (() => {
     const CONFIG = {
-        mode: 'group',
-        order: 'normal',
-
-        staggerRange: [100, 130],
-        durationRange: [1000, 1300],
-
-        jitter: 0.25,
+        baseDelay: 200,
+        stagger: 120,
+        targets: [
+            { id: 'mainActivityName', remove: 'hidden-name', add: 'open-name' },
+            { id: 'mainActivityBody', remove: 'hidden-body', add: 'open-body' },
+            { id: 'supportName', remove: 'hidden-name', add: 'open-name' },
+            { id: 'supportBody', remove: 'hidden-body', add: 'open-body' },
+            { id: 'contactsName', remove: 'hidden-name', add: 'open-name' },
+            { id: 'contactsBody', remove: 'hidden-body', add: 'open-body' },
+        ],
     };
 
-    const randRange = (min, max) => min + Math.random() * (max - min);
-    const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
-    const jitterAround = (base, jitter = 0.25) => {
-        const j = clamp(jitter, 0, 1);
-        const delta = base * j;
-        return randRange(base - delta, base + delta);
+    const revealOne = (t) => {
+        const el = document.getElementById(t.id);
+        if (!el) return;
+        el.classList.remove(t.remove);
+        el.classList.add(t.add);
     };
 
-    const shuffle = (arr) => {
-        for (let i = arr.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [arr[i], arr[j]] = [arr[j], arr[i]];
-        }
-        return arr;
-    };
-
-    window.addEventListener('load', () => {
-        document.querySelectorAll('.jump').forEach((group) => {
-            const kids = Array.from(group.children);
-
-            const staggerBase = Math.round(randRange(...CONFIG.staggerRange));
-            const durationBase = Math.round(randRange(...CONFIG.durationRange));
-
-            group.style.setProperty('--jump-stagger-group', `${staggerBase}ms`);
-            group.style.setProperty('--jump-duration-group', `${durationBase}ms`);
-
-            const indices = kids.map((_, i) => i);
-            if (CONFIG.order === 'random') shuffle(indices);
-
-            kids.forEach((el, i) => {
-                const playIndex = indices[i];
-                el.style.setProperty('--i', playIndex);
-
-                if (CONFIG.mode === 'per-item') {
-                    const s = Math.round(jitterAround(staggerBase, CONFIG.jitter));
-                    const d = Math.round(jitterAround(durationBase, CONFIG.jitter));
-                    el.style.setProperty('--jump-stagger', `${s}ms`);
-                    el.style.setProperty('--jump-duration', `${d}ms`);
-                } else {
-                    el.style.removeProperty('--jump-stagger');
-                    el.style.removeProperty('--jump-duration');
-                }
-            });
-
-            group.classList.add('is-ready');
+    const revealAll = () => {
+        CONFIG.targets.forEach((t, i) => {
+            setTimeout(() => revealOne(t), CONFIG.baseDelay + i * CONFIG.stagger);
         });
-    });
+    };
+
+    const handler = (e) => {
+        if (e.type === 'pageshow' && !e.persisted) return;
+        requestAnimationFrame(() => requestAnimationFrame(revealAll));
+    };
+
+    window.addEventListener('load', handler, { once: true });
+    window.addEventListener('pageshow', handler);
 })();
