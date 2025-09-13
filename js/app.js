@@ -249,12 +249,8 @@ document.addEventListener('DOMContentLoaded', () => {
         baseDelay: 200,
         stagger: 120,
         targets: [
-            { id: 'mainActivityName', remove: 'hidden-name', add: 'open-name' },
-            { id: 'mainActivityBody', remove: 'hidden-body', add: 'open-body' },
-            { id: 'supportName', remove: 'hidden-name', add: 'open-name' },
-            { id: 'supportBody', remove: 'hidden-body', add: 'open-body' },
-            { id: 'contactsName', remove: 'hidden-name', add: 'open-name' },
-            { id: 'contactsBody', remove: 'hidden-body', add: 'open-body' },
+            { id: 'platformsName', remove: 'hidden-name', add: 'open-name' },
+            { id: 'platformsName', remove: 'hidden-body', add: 'open-body' },
         ],
     };
 
