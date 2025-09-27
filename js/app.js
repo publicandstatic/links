@@ -220,6 +220,10 @@ document.addEventListener('DOMContentLoaded', () => {
         syncAria(nameEl);
 
         const toggle = () => {
+            if (bodyEl.classList.contains('hidden-load')) {
+                bodyEl.classList.remove('hidden-load');
+                bodyEl.classList.add('hidden-body');
+            }
             nameEl.classList.toggle('hidden-name');
             nameEl.classList.toggle('open-name');
 
@@ -243,35 +247,3 @@ document.addEventListener('DOMContentLoaded', () => {
         nameEl.setAttribute('aria-expanded', expanded ? 'true' : 'false');
     }
 });
-
-(() => {
-    const CONFIG = {
-        baseDelay: 200,
-        stagger: 120,
-        targets: [
-            { id: 'platformsName', remove: 'hidden-name', add: 'open-name' },
-            { id: 'platformsName', remove: 'hidden-body', add: 'open-body' },
-        ],
-    };
-
-    const revealOne = (t) => {
-        const el = document.getElementById(t.id);
-        if (!el) return;
-        el.classList.remove(t.remove);
-        el.classList.add(t.add);
-    };
-
-    const revealAll = () => {
-        CONFIG.targets.forEach((t, i) => {
-            setTimeout(() => revealOne(t), CONFIG.baseDelay + i * CONFIG.stagger);
-        });
-    };
-
-    const handler = (e) => {
-        if (e.type === 'pageshow' && !e.persisted) return;
-        requestAnimationFrame(() => requestAnimationFrame(revealAll));
-    };
-
-    window.addEventListener('load', handler, { once: true });
-    window.addEventListener('pageshow', handler);
-})();

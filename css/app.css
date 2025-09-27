@@ -48,16 +48,6 @@ h2 {
     filter: drop-shadow(0px 0px 4px #1f222c);
 }
 
-@-webkit-keyframes hue {
-    from {
-        -webkit-filter: hue-rotate(0deg);
-    }
-
-    to {
-        -webkit-filter: hue-rotate(-360deg);
-    }
-}
-
 h5 {
     font-weight: 700;
     text-transform: uppercase;
@@ -119,26 +109,40 @@ i.bi {
     content: '\e901';
 }
 
-.dropdown-menu a {
-    text-decoration: none;
-    position: relative;
-    color: #22a8cb;
-    font-size: 1em;
+.bi-gravk {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    padding-right: 1.4em !important;
+    background: url('/links/images/icons/gravk.png') no-repeat center / contain;
 }
 
-.dropdown-menu a::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: -5px;
-    width: 0;
-    height: 2px;
-    background-color: currentColor;
-    transition: width 0.3s ease;
+.bi-gravk::before {
+    content: none !important;
 }
 
-.dropdown-menu a:hover::after {
-    width: 100%;
+a:hover .bi-gravk,
+a:focus .bi-gravk {
+    background-image: url('/links/images/icons/gravk-hover.png');
+    transition: background-image 0.15s linear 0.15s;
+}
+
+.bi-wtg {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    padding-right: 1.4em !important;
+    background: url('/links/images/icons/wtg.png') no-repeat center / contain;
+}
+
+.bi-wtg::before {
+    content: none !important;
+}
+
+a:hover .bi-wtg,
+a:focus .bi-wtg {
+    background-image: url('/links/images/icons/wtg-hover.png');
+    transition: background-image 0.15s linear 0.15s;
 }
 
 .gradient45 {
@@ -153,38 +157,6 @@ i.bi {
 .custom-btn:focus {
     color: #1f222c;
     background-position: 0;
-}
-
-.dropdown-center {
-    z-index: 100;
-}
-#hamburger {
-    background-color: #3e475f;
-    color: #ffffff;
-}
-
-#hamburger:hover,
-#hamburger:active {
-    background-color: #3e475f;
-    color: #ffffff;
-    border-color: #ffffff;
-}
-
-.dropdown-menu {
-    --bs-dropdown-bg: #3e475f;
-}
-.dropdown-item {
-    --bs-dropdown-link-color: #ffffff;
-    --bs-dropdown-link-active-bg: rgba(31, 34, 44, 0.5);
-    --bs-dropdown-link-active-color: #ffffff;
-    --bs-dropdown-link-hover-bg: #1f222c;
-    --bs-dropdown-link-hover-color: #ffffff;
-}
-
-.dropdown-item:focus,
-.dropdown-item:hover {
-    color: var(--bs-dropdown-link-hover-color) !important;
-    background-color: var(--bs-dropdown-link-hover-bg) !important;
 }
 
 .acc-name {
@@ -226,6 +198,10 @@ i.bi {
 .acc-body.hidden-body {
     grid-template-rows: 0fr;
     animation: acc-close 0.3s ease forwards;
+}
+
+.acc-body.hidden-load {
+    grid-template-rows: 0fr;
 }
 
 @keyframes acc-open {
