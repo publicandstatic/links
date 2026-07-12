@@ -1,52 +1,126 @@
-document.getElementById('copy-email-btn').addEventListener('click', function (event) {
-    event.preventDefault();
+'use strict';
 
-    const email = 'publicandstatic@gmail.com';
-
-    const tempInput = document.createElement('input');
-    tempInput.value = email;
-    document.body.appendChild(tempInput);
-
-    tempInput.select();
-    document.execCommand('copy');
-
-    document.body.removeChild(tempInput);
-
-    const link = document.getElementById('copy-email-btn');
-    const originalText = link.innerHTML;
-    link.innerHTML = 'Email скопійовано!';
-
-    setTimeout(function () {
-        link.innerHTML = originalText;
-    }, 1000);
+document.addEventListener('DOMContentLoaded', () => {
+    initializeCopyButtons();
+    initializeLogoAnimation();
+    initializeAccordions();
 });
 
-document.getElementById('copy-nintendo-btn').addEventListener('click', function (event) {
-    event.preventDefault();
+/**
+ * Кнопки копіювання.
+ */
+function initializeCopyButtons() {
+    setupCopyButton(
+        'copy-email-btn',
+        'publicandstatic@gmail.com',
+        'Email скопійовано!'
+    );
 
-    const code = 'SW-4549-5995-6185';
+    setupCopyButton(
+        'copy-nintendo-btn',
+        'SW-4549-5995-6185',
+        'Код друга скопійовано!'
+    );
+}
 
-    const tempInput = document.createElement('input');
-    tempInput.value = code;
-    document.body.appendChild(tempInput);
+/**
+ * Додає копіювання тексту для кнопки.
+ */
+function setupCopyButton(buttonId, value, successText) {
+    const button = document.getElementById(buttonId);
 
-    tempInput.select();
-    document.execCommand('copy');
+    if (!button) {
+        return;
+    }
 
-    document.body.removeChild(tempInput);
+    const originalHtml = button.innerHTML;
+    let resetTimer = null;
 
-    const link = document.getElementById('copy-nintendo-btn');
-    const originalText = link.innerHTML;
-    link.innerHTML = 'Код друга скопійовано!';
+    button.addEventListener('click', async (event) => {
+        event.preventDefault();
 
-    setTimeout(function () {
-        link.innerHTML = originalText;
-    }, 1000);
-});
+        const copied = await copyText(value);
 
-document.addEventListener('DOMContentLoaded', function () {
+        if (!copied) {
+            return;
+        }
+
+        clearTimeout(resetTimer);
+
+        button.textContent = successText;
+
+        resetTimer = window.setTimeout(() => {
+            button.innerHTML = originalHtml;
+        }, 1000);
+    });
+}
+
+/**
+ * Копіює текст через сучасний Clipboard API.
+ * Старий метод використовується як резервний.
+ */
+async function copyText(value) {
+    if (navigator.clipboard && window.isSecureContext) {
+        try {
+            await navigator.clipboard.writeText(value);
+
+            return true;
+        } catch (error) {
+            console.warn('Clipboard API не спрацював:', error);
+        }
+    }
+
+    const textarea = document.createElement('textarea');
+
+    textarea.value = value;
+    textarea.setAttribute('readonly', '');
+    textarea.style.position = 'fixed';
+    textarea.style.left = '-9999px';
+    textarea.style.opacity = '0';
+
+    document.body.appendChild(textarea);
+
+    textarea.select();
+    textarea.setSelectionRange(0, textarea.value.length);
+
+    let copied = false;
+
+    try {
+        copied = document.execCommand('copy');
+    } catch (error) {
+        console.error('Не вдалося скопіювати текст:', error);
+    }
+
+    textarea.remove();
+
+    return copied;
+}
+
+/**
+ * Зміна логотипа при наведенні.
+ */
+function initializeLogoAnimation() {
     const logoElement = document.querySelector('.logo');
+
+    if (!logoElement) {
+        return;
+    }
+
+    /*
+     * Не запускаємо логіку наведення на телефонах
+     * і пристроях без миші.
+     */
+    const canHover = window.matchMedia(
+        '(hover: hover) and (pointer: fine)'
+    ).matches;
+
+    if (!canHover) {
+        return;
+    }
+
     const logoChangeElements = document.querySelectorAll('.logo-change');
+    const mainLogo = '/links/images/logos/logo_main.png';
+
     const images = [
         '/links/images/logos/logo_crazy.png',
         '/links/images/logos/logo_good.png',
@@ -62,188 +136,131 @@ document.addEventListener('DOMContentLoaded', function () {
         '/links/images/logos/logo_yyy.png',
     ];
 
-    images.forEach((image) => {
-        const img = new Image();
-        img.src = image;
-    });
-
-    let isAnimating = false;
-    let nextImage = null;
+    const imageCache = new Map();
+    let currentRequestId = 0;
 
     function getRandomImage() {
-        return images[Math.floor(Math.random() * images.length)];
+        const index = Math.floor(Math.random() * images.length);
+
+        return images[index];
     }
 
-    function playAnimation(image) {
-        isAnimating = true;
-        logoElement.style.backgroundImage = `url('${image}')`;
-        setTimeout(() => {
-            isAnimating = false;
-            if (nextImage) {
-                const imageToAnimate = nextImage;
-                nextImage = null;
-                playAnimation(imageToAnimate);
-            }
-        }, 200);
+    function loadImage(src) {
+        if (imageCache.has(src)) {
+            return imageCache.get(src);
+        }
+
+        const promise = new Promise((resolve) => {
+            const image = new Image();
+
+            image.decoding = 'async';
+            image.onload = resolve;
+            image.onerror = resolve;
+            image.src = src;
+        });
+
+        imageCache.set(src, promise);
+
+        return promise;
+    }
+
+    async function setLogo(src) {
+        const requestId = ++currentRequestId;
+
+        await loadImage(src);
+
+        /*
+         * Не показуємо стару картинку, якщо користувач
+         * уже навів курсор на інший елемент.
+         */
+        if (requestId !== currentRequestId) {
+            return;
+        }
+
+        logoElement.style.backgroundImage = `url("${src}")`;
     }
 
     logoChangeElements.forEach((element) => {
-        element.addEventListener('mouseenter', () => {
-            const newImage = getRandomImage();
-            if (!isAnimating) {
-                playAnimation(newImage);
-            } else {
-                nextImage = newImage;
-            }
+        element.addEventListener('pointerenter', () => {
+            setLogo(getRandomImage());
         });
 
-        element.addEventListener('mouseleave', () => {
-            if (!isAnimating) {
-                playAnimation('/links/images/logos/logo_main.png');
-            } else {
-                nextImage = '/links/images/logos/logo_main.png';
-            }
+        element.addEventListener('pointerleave', () => {
+            setLogo(mainLogo);
         });
     });
-});
+}
 
-var canvas = document.getElementById('background-сanvas');
-var context = canvas.getContext('2d');
-var colors = ['#00bfcb', '#18d3bc', '#5b82c8', '#3396cf'];
-var fps = 15;
-var now;
-var then = Date.now();
-var num = 2;
-var delta;
-var tamanho = 50;
-var ismobile = false;
-var varpi = 2 * Math.PI;
-var interval = 1000 / fps;
-var objforDraw = new Array();
-
-document.addEventListener('DOMContentLoaded', function () {
-    window.requestAnimFrame = (function () {
-        return (
-            window.requestAnimationFrame ||
-            window.webkitRequestAnimationFrame ||
-            window.mozRequestAnimationFrame ||
-            window.oRequestAnimationFrame ||
-            window.msRequestAnimationFrame ||
-            function (callback) {
-                return window.setTimeout(callback, 1000 / fps);
-            }
-        );
-    })();
-    window.cancelRequestAnimFrame = (function () {
-        return (
-            window.cancelAnimationFrame ||
-            window.webkitCancelRequestAnimationFrame ||
-            window.mozCancelRequestAnimationFrame ||
-            window.oCancelRequestAnimationFrame ||
-            window.msCancelRequestAnimationFrame ||
-            clearTimeout
-        );
-    })();
-    var ShadowObject = function (color) {
-        this.x = Math.random() * canvas.width + 10;
-        this.y = Math.random() * canvas.height + 10;
-        this.color = color;
-        this.size = tamanho;
-        this.dirX = Math.random() < 0.5 ? -1 : 1;
-        this.dirY = Math.random() < 0.5 ? -1 : 1;
-        this.checkIsOut = function () {
-            if (this.x > canvas.width + this.size / 2 || this.x < 0 - this.size / 2) {
-                this.dirX = this.dirX * -1;
-            }
-            if (this.y > canvas.height + this.size / 2 || this.y < 0 - this.size / 2) {
-                this.dirY = this.dirY * -1;
-            }
-        };
-        this.move = function () {
-            this.x += this.dirX * 2;
-            this.y += this.dirY * 2;
-        };
-    };
-
-    function draw() {
-        context.clearRect(0, 0, canvas.width, canvas.height);
-        var len = objforDraw.length;
-        for (i = 0; i < len; i++) {
-            context.beginPath();
-            context.arc(objforDraw[i].x, objforDraw[i].y, objforDraw[i].size, 0, varpi, false);
-            context.fillStyle = objforDraw[i].color;
-            context.shadowColor = objforDraw[i].color;
-            if (ismobile == false) {
-                context.shadowBlur = 50;
-                context.shadowOffsetX = 0;
-                context.shadowOffsetY = 0;
-            }
-            context.fill();
-            objforDraw[i].checkIsOut();
-            objforDraw[i].move();
-        }
-    }
-
-    function animloop() {
-        requestAnimFrame(animloop);
-        now = Date.now();
-        delta = now - then;
-        if (delta > interval) {
-            draw();
-            then = now - (delta % interval);
-        }
-    }
-    document.body.onload = function (e) {
-        for (i = 0; i < colors.length * num; i++) {
-            var color = i >= colors.length ? colors[i - colors.length] : colors[i];
-            objforDraw.push(new ShadowObject(color));
-        }
-        animloop();
-    };
-});
-
-document.addEventListener('DOMContentLoaded', () => {
+/**
+ * Акордеони.
+ */
+function initializeAccordions() {
     const names = document.querySelectorAll('.acc-name');
 
-    names.forEach((nameEl) => {
-        let bodyId = nameEl.getAttribute('aria-controls');
-        if (!bodyId) {
-            const id = nameEl.id || '';
-            if (id && id.endsWith('Name')) bodyId = id.replace(/Name$/, 'Body');
-            if (bodyId) nameEl.setAttribute('aria-controls', bodyId);
-        }
-        const bodyEl = bodyId ? document.getElementById(bodyId) : null;
-        if (!bodyEl) return;
+    names.forEach((nameElement) => {
+        const bodyId = nameElement.getAttribute('aria-controls');
 
-        nameEl.setAttribute('role', 'button');
-        nameEl.setAttribute('tabindex', '0');
-        syncAria(nameEl);
+        if (!bodyId) {
+            return;
+        }
+
+        const bodyElement = document.getElementById(bodyId);
+
+        if (!bodyElement) {
+            return;
+        }
+
+        nameElement.setAttribute('role', 'button');
+        nameElement.setAttribute('tabindex', '0');
 
         const toggle = () => {
-            if (bodyEl.classList.contains('hidden-load')) {
-                bodyEl.classList.remove('hidden-load');
-                bodyEl.classList.add('hidden-body');
-            }
-            nameEl.classList.toggle('hidden-name');
-            nameEl.classList.toggle('open-name');
+            const shouldOpen =
+                !nameElement.classList.contains('open-name');
 
-            bodyEl.classList.toggle('hidden-body');
-            bodyEl.classList.toggle('open-body');
+            bodyElement.classList.remove('hidden-load');
 
-            syncAria(nameEl);
+            nameElement.classList.toggle(
+                'open-name',
+                shouldOpen
+            );
+
+            nameElement.classList.toggle(
+                'hidden-name',
+                !shouldOpen
+            );
+
+            bodyElement.classList.toggle(
+                'open-body',
+                shouldOpen
+            );
+
+            bodyElement.classList.toggle(
+                'hidden-body',
+                !shouldOpen
+            );
+
+            nameElement.setAttribute(
+                'aria-expanded',
+                shouldOpen ? 'true' : 'false'
+            );
         };
 
-        nameEl.addEventListener('click', toggle);
-        nameEl.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                toggle();
+        nameElement.setAttribute(
+            'aria-expanded',
+            nameElement.classList.contains('open-name')
+                ? 'true'
+                : 'false'
+        );
+
+        nameElement.addEventListener('click', toggle);
+
+        nameElement.addEventListener('keydown', (event) => {
+            if (event.key !== 'Enter' && event.key !== ' ') {
+                return;
             }
+
+            event.preventDefault();
+            toggle();
         });
     });
-
-    function syncAria(nameEl) {
-        const expanded = nameEl.classList.contains('open-name');
-        nameEl.setAttribute('aria-expanded', expanded ? 'true' : 'false');
-    }
-});
+}
