@@ -119,7 +119,7 @@ h1 {
     margin: 0;
     font-size: calc(1.325rem + 0.9vw);
     line-height: 1.2;
-    text-shadow: var(--shadow);
+    filter: drop-shadow(var(--shadow));
 }
 
 @media (min-width: 1200px) {
@@ -156,7 +156,7 @@ h1 {
 
     border: 2px solid var(--accent);
     border-radius: 0.6em;
-    box-shadow: var(--shadow);
+    filter: drop-shadow(var(--shadow));
     background-color: var(--btn-bg);
     background-image: linear-gradient(var(--angle, 135deg), var(--accent) 50%, transparent 50%);
     background-size: 400%;
@@ -227,7 +227,7 @@ h1 {
 
     font-size: 1.25rem;
     text-transform: uppercase;
-    text-shadow: var(--shadow);
+    filter: drop-shadow(var(--shadow));
     list-style: none;
     cursor: pointer;
     user-select: none;
@@ -242,7 +242,6 @@ h1 {
     border-left: 6px solid transparent;
     border-right: 6px solid transparent;
     border-top: 8px solid currentColor;
-    filter: drop-shadow(var(--shadow));
 }
 
 .acc[open] > summary::after {
