@@ -1,9 +1,30 @@
 'use strict';
 
 document.addEventListener('DOMContentLoaded', () => {
+    initializeRandomTilt();
     initializeCopyButtons();
     initializeLogoAnimation();
 });
+
+/**
+ * Gives every sticker (button, card, title) a slightly different tilt on each page load.
+ * Limits keep tilted neighbours from touching each other.
+ */
+function initializeRandomTilt() {
+    const tilt = (min, max) => {
+        const sign = Math.random() < 0.5 ? -1 : 1;
+        return `${(sign * (min + Math.random() * (max - min))).toFixed(2)}deg`;
+    };
+    const apply = (selector, min, max) => {
+        document.querySelectorAll(selector).forEach((element) => {
+            element.style.setProperty('--tilt', tilt(min, max));
+        });
+    };
+
+    apply('li > .btn', 0.3, 0.8);
+    apply('.acc', 0.2, 0.6);
+    apply('h1', 1, 2.5);
+}
 
 /**
  * Copy buttons: elements with data-copy="value" and data-copied="message".

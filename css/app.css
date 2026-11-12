@@ -19,11 +19,10 @@
 }
 
 :root {
-    --bg: #22a8cb;
-    --accent: #f7f619;
-    --dark: #1f222c;
-    --btn-bg: rgba(62, 71, 95, 0.5);
-    --shadow: 0 0 4px var(--dark);
+    --blue: #22a8cb;
+    --yellow: #f7f619;
+    --slate: #3e475f;
+    --ink: #1f222c;
 
     interpolate-size: allow-keywords;
 }
@@ -36,7 +35,7 @@
 
 html {
     min-height: 100%;
-    background-color: var(--bg);
+    background-color: var(--blue);
     -webkit-text-size-adjust: 100%;
 }
 
@@ -50,11 +49,11 @@ body {
     font-family: 'Play', system-ui, sans-serif;
     font-weight: 700;
     line-height: 1.5;
-    color: var(--accent);
+    color: var(--yellow);
     text-align: center;
 }
 
-/* Animated background */
+/* Animated background (desktop only) */
 body::before {
     content: '';
     position: fixed;
@@ -67,7 +66,7 @@ body::before {
         radial-gradient(circle at 78% 18%, rgba(24, 211, 188, 0.9) 0 9%, transparent 31%),
         radial-gradient(circle at 24% 82%, rgba(91, 130, 200, 0.9) 0 10%, transparent 33%),
         radial-gradient(circle at 82% 76%, rgba(51, 150, 207, 0.95) 0 9%, transparent 31%),
-        var(--bg);
+        var(--blue);
 
     transform: translate3d(-2%, -1%, 0) scale(1.05);
 }
@@ -91,9 +90,9 @@ body::before {
 
 /* Layout */
 .page {
-    width: min(100% - 2rem, 26rem);
+    width: min(100% - 2rem, 34rem);
     margin: 0 auto;
-    padding: 0.5rem 0 1.5rem;
+    padding: 1rem 0 1.5rem;
 }
 
 .header {
@@ -105,7 +104,7 @@ body::before {
     width: 56px;
     height: 56px;
     margin: 0 auto 1rem;
-    filter: drop-shadow(var(--shadow));
+    filter: drop-shadow(4px 4px 0 var(--ink));
 }
 
 @media (min-width: 768px) {
@@ -115,11 +114,19 @@ body::before {
     }
 }
 
+/* Title: tilted yellow sticker. --tilt is randomised in js/app.js */
 h1 {
+    display: inline-block;
     margin: 0;
+    padding: 0.1em 0.5em;
     font-size: calc(1.325rem + 0.9vw);
     line-height: 1.2;
-    filter: drop-shadow(var(--shadow));
+    color: var(--ink);
+    background: var(--yellow);
+    border: 3px solid var(--ink);
+    border-radius: 12px;
+    box-shadow: 5px 5px 0 var(--ink);
+    rotate: var(--tilt, -2deg);
 }
 
 @media (min-width: 1200px) {
@@ -128,16 +135,30 @@ h1 {
     }
 }
 
+/* Tilted buttons need vertical room so their ends do not touch */
 .links {
     display: grid;
-    gap: 0.5rem;
+    gap: 1rem;
     margin: 0 0 0.5rem;
     padding: 0;
     list-style: none;
 }
 
-/* Buttons */
+@media (min-width: 640px) {
+    .links.grid2 {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .links.grid2 .btn {
+        font-size: 1.1rem;
+    }
+}
+
+/* Buttons: pill stickers with a hard shadow and a diagonal fill on hover */
 .btn {
+    --fill: var(--yellow);
+
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -150,35 +171,72 @@ h1 {
     font: inherit;
     font-size: 1.25rem;
     line-height: 1.5;
-    color: var(--accent);
+    color: var(--yellow);
     text-decoration: none;
     cursor: pointer;
 
-    border: 2px solid var(--accent);
-    border-radius: 0.6em;
-    filter: drop-shadow(var(--shadow));
-    background-color: var(--btn-bg);
-    background-image: linear-gradient(var(--angle, 135deg), var(--accent) 50%, transparent 50%);
+    border: 3px solid var(--ink);
+    border-radius: 999px;
+    box-shadow: 4px 4px 0 var(--ink);
+    background-color: var(--slate);
+    background-image: linear-gradient(var(--angle, 135deg), var(--fill) 50%, transparent 50%);
+    /* Keep the fill out from under the border: avoids coloured fringes on tilted buttons */
+    background-clip: padding-box;
     background-size: 400%;
     background-position: 100%;
     transition:
         background-position 300ms ease-in-out,
-        color 300ms ease-in-out;
+        color 300ms ease-in-out,
+        translate 150ms ease,
+        rotate 150ms ease,
+        box-shadow 150ms ease;
+}
+
+li:nth-child(odd) > .btn {
+    rotate: var(--tilt, -0.8deg);
+}
+
+li:nth-child(even) > .btn {
+    rotate: var(--tilt, 0.8deg);
 }
 
 .d45 {
     --angle: 45deg;
 }
 
-.btn:hover,
-.btn:focus-visible {
-    color: var(--dark);
+.btn:is(:hover, :focus-visible) {
+    color: var(--ink);
     background-position: 0;
+}
+
+li > .btn:hover {
+    z-index: 1;
+    translate: -2px -2px;
+    rotate: 0deg;
+    box-shadow: 6px 6px 0 var(--ink);
+}
+
+li > .btn:active {
+    translate: 3px 3px;
+    box-shadow: 1px 1px 0 var(--ink);
+}
+
+/* Main links: yellow stickers, filled with slate on hover */
+.page > .links .btn {
+    --fill: var(--slate);
+    --icon-contrast: var(--yellow);
+    color: var(--ink);
+    background-color: var(--yellow);
+}
+
+.page > .links .btn:is(:hover, :focus-visible) {
+    --icon-contrast: var(--ink);
+    color: var(--yellow);
 }
 
 .btn:focus-visible,
 .acc > summary:focus-visible {
-    outline: 3px solid var(--dark);
+    outline: 3px solid var(--ink);
     outline-offset: 2px;
 }
 
@@ -190,44 +248,96 @@ h1 {
     fill: currentColor;
 }
 
+/* Sprite symbols carry 1/16 of padding on each side (see images/icons.svg):
+   enlarge the box so the glyph keeps 1em, and nothing is drawn at the box edge */
+svg.icon {
+    width: 1.125em;
+    height: 1.125em;
+    margin: -0.0625em;
+}
+
+/* Raster icons used as masks: painted with currentColor like the SVG icons */
 .icon-gravk,
-.icon-wtg {
-    width: 20px;
-    height: 20px;
-    background: var(--img) no-repeat center / contain;
+.icon-wtg,
+.icon-goodreads {
+    /* 1px of spare room on each side: round glyphs are not cut on sub-pixel positions */
+    width: calc(1em + 2px);
+    height: calc(1em + 2px);
+    margin: -1px;
+    background-color: currentColor;
+    -webkit-mask: var(--img) no-repeat center / 1em 1em;
+    mask: var(--img) no-repeat center / 1em 1em;
+    transition: background-color 300ms ease-in-out;
 }
 
 .icon-gravk {
     --img: url('../images/icons/gravk.png');
+    position: relative;
+}
+
+/* Two-tone logo: the bone always uses the colour opposite to the text */
+.icon-gravk::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: var(--icon-contrast, var(--ink));
+    -webkit-mask: url('../images/icons/gravk-bone.png') no-repeat center / 1em 1em;
+    mask: url('../images/icons/gravk-bone.png') no-repeat center / 1em 1em;
+    transition: background-color 300ms ease-in-out;
+}
+
+.btn:is(:hover, :focus-visible) {
+    --icon-contrast: var(--yellow);
 }
 
 .icon-wtg {
     --img: url('../images/icons/wtg.png');
 }
 
-.btn:is(:hover, :focus-visible) .icon-gravk {
-    --img: url('../images/icons/gravk-hover.png');
+.icon-goodreads {
+    --img: url('../images/icons/goodreads.png');
 }
 
-.btn:is(:hover, :focus-visible) .icon-wtg {
-    --img: url('../images/icons/wtg-hover.png');
+.game-icon {
+    flex: none;
+    width: 1.2em;
+    height: 1.2em;
+    border: 2px solid var(--ink);
+    border-radius: 6px;
 }
 
-/* Accordions */
+/* Accordions: tilted slate cards */
 .acc {
-    margin-top: 0.5rem;
+    margin-top: 0.9rem;
+    padding: 0 0.6rem;
+    background: var(--slate);
+    border: 3px solid var(--ink);
+    border-radius: 20px;
+    box-shadow: 6px 6px 0 var(--ink);
+    rotate: var(--tilt, -0.6deg);
+}
+
+.acc:nth-of-type(even) {
+    rotate: var(--tilt, 0.6deg);
+}
+
+.acc .btn {
+    background-color: color-mix(in srgb, var(--slate) 45%, var(--ink));
 }
 
 .acc > summary {
-    display: inline-flex;
+    display: flex;
     align-items: center;
+    justify-content: center;
     gap: 0.5rem;
-    margin-bottom: 0.5rem;
+    width: 100%;
+    margin: 0;
+    padding: 0.75rem 0.1rem;
     border-radius: 0.3em;
 
     font-size: 1.25rem;
     text-transform: uppercase;
-    filter: drop-shadow(var(--shadow));
+    text-shadow: 2px 2px 0 var(--ink);
     list-style: none;
     cursor: pointer;
     user-select: none;
@@ -242,6 +352,7 @@ h1 {
     border-left: 6px solid transparent;
     border-right: 6px solid transparent;
     border-top: 8px solid currentColor;
+    filter: drop-shadow(2px 2px 0 var(--ink));
 }
 
 .acc[open] > summary::after {
@@ -262,10 +373,10 @@ h1 {
     block-size: auto;
 }
 
+/* Tilted buttons and their shadows need room inside the clipped area */
 .acc > .links {
-    /* room for button shadows inside the clipped area */
-    padding: 4px;
-    margin: -4px -4px 0.5rem;
+    padding: 6px 12px 14px 8px;
+    margin: 0 0 0.2rem;
 }
 
 @media (prefers-reduced-motion: reduce) {
