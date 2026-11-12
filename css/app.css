@@ -138,6 +138,8 @@ h1 {
 /* Tilted buttons need vertical room so their ends do not touch */
 .links {
     display: grid;
+    /* minmax(0, 1fr): long text must not widen the column past the card */
+    grid-template-columns: minmax(0, 1fr);
     gap: 1rem;
     margin: 0 0 0.5rem;
     padding: 0;
@@ -146,7 +148,7 @@ h1 {
 
 @media (min-width: 640px) {
     .links.grid2 {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .links.grid2 .btn {
@@ -173,6 +175,8 @@ h1 {
     line-height: 1.5;
     color: var(--yellow);
     text-decoration: none;
+    overflow-wrap: anywhere;
+    text-wrap: balance;
     cursor: pointer;
 
     border: 3px solid var(--ink);
@@ -204,16 +208,19 @@ li:nth-child(even) > .btn {
     --angle: 45deg;
 }
 
-.btn:is(:hover, :focus-visible) {
-    color: var(--ink);
-    background-position: 0;
-}
+/* Hover only on mouse devices: on touch screens :hover sticks after a tap */
+@media (hover: hover) {
+    .btn:is(:hover, :focus-visible) {
+        color: var(--ink);
+        background-position: 0;
+    }
 
-li > .btn:hover {
-    z-index: 1;
-    translate: -2px -2px;
-    rotate: 0deg;
-    box-shadow: 6px 6px 0 var(--ink);
+    li > .btn:hover {
+        z-index: 1;
+        translate: -2px -2px;
+        rotate: 0deg;
+        box-shadow: 6px 6px 0 var(--ink);
+    }
 }
 
 li > .btn:active {
@@ -229,9 +236,11 @@ li > .btn:active {
     background-color: var(--yellow);
 }
 
-.page > .links .btn:is(:hover, :focus-visible) {
-    --icon-contrast: var(--ink);
-    color: var(--yellow);
+@media (hover: hover) {
+    .page > .links .btn:is(:hover, :focus-visible) {
+        --icon-contrast: var(--ink);
+        color: var(--yellow);
+    }
 }
 
 .btn:focus-visible,
@@ -286,8 +295,10 @@ svg.icon {
     transition: background-color 300ms ease-in-out;
 }
 
-.btn:is(:hover, :focus-visible) {
-    --icon-contrast: var(--yellow);
+@media (hover: hover) {
+    .btn:is(:hover, :focus-visible) {
+        --icon-contrast: var(--yellow);
+    }
 }
 
 .icon-wtg {
@@ -298,10 +309,13 @@ svg.icon {
     --img: url('../images/icons/goodreads.png');
 }
 
+/* Game icon sits inline before the title, so it stays next to the text when the title wraps */
 .game-icon {
-    flex: none;
+    display: inline-block;
     width: 1.2em;
     height: 1.2em;
+    margin-right: 0.3em;
+    vertical-align: -0.3em;
     border: 2px solid var(--ink);
     border-radius: 6px;
 }
