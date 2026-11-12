@@ -280,7 +280,7 @@ svg.icon {
 }
 
 .icon-gravk {
-    --img: url('../images/icons/gravk.png');
+    --img: url('../images/icons/gravk-disk.svg');
     position: relative;
 }
 
@@ -290,8 +290,8 @@ svg.icon {
     position: absolute;
     inset: 0;
     background-color: var(--icon-contrast, var(--ink));
-    -webkit-mask: url('../images/icons/gravk-bone.png') no-repeat center / 1em 1em;
-    mask: url('../images/icons/gravk-bone.png') no-repeat center / 1em 1em;
+    -webkit-mask: url('../images/icons/gravk-figure.svg') no-repeat center / 1em 1em;
+    mask: url('../images/icons/gravk-figure.svg') no-repeat center / 1em 1em;
     transition: background-color 300ms ease-in-out;
 }
 
@@ -309,7 +309,13 @@ svg.icon {
     --img: url('../images/icons/goodreads.png');
 }
 
-/* Game icon sits inline before the title, so it stays next to the text when the title wraps */
+/* Icons inside .label sit inline before the text, so they stay next to it when the text wraps */
+.label > svg.icon {
+    display: inline-block;
+    margin-right: 0.25em;
+    vertical-align: -0.2em;
+}
+
 .game-icon {
     display: inline-block;
     width: 1.2em;
